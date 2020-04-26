@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IProduct } from './products';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ProductService {
     getProducts(): IProduct[] {
         return [
@@ -23,6 +25,16 @@ export class ProductService {
                 "description": "15 gallon capacity rolling garden cart",
                 "price": 32.992,
                 "starRating": 4.2,
+                "imageUrl": "assets/images/garden_cart.png"
+              },
+              {
+                "productId": 3,
+                "productName": "Garden Cart Pro",
+                "productCode": "GDN-0099",
+                "releaseDate": "March 18, 2020",
+                "description": "90++ gallon capacity rolling garden cart",
+                "price": 92.992,
+                "starRating": 4.8,
                 "imageUrl": "assets/images/garden_cart.png"
               }
         ];
