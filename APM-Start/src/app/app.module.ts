@@ -15,6 +15,8 @@ import { ProductDetailComponent } from './products/product-detail/product-detail
     ProductListComponent,
     StarComponent,
     ConverToSpacesPipe
+    ConverToSpacesPipe,
+    ProductDetailComponent,
   ],
   imports: [
     BrowserModule,
