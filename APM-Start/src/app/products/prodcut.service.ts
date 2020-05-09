@@ -1,42 +1,34 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
 import { IProduct } from './products';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductService {
-    getProducts(): IProduct[] {
-        return [
-            {
-                "productId" : 1,
-                "productName": "Leaf Rake",
-                "productCode": "GDN-0011",
-                "releaseDate": "March 19, 2019",
-                "description": "Leaf rake with 48-inch wooden handle.",
-                "price": 19.955,
-                "starRating": 3.2,
-                imageUrl: 'assets/images/leaf_rake.png'
-              },
-              {
-                "productId": 2,
-                "productName": "Garden Cart",
-                "productCode": "GDN-0023",
-                "releaseDate": "March 18, 2019",
-                "description": "15 gallon capacity rolling garden cart",
-                "price": 32.992,
-                "starRating": 4.2,
-                "imageUrl": "assets/images/garden_cart.png"
-              },
-              {
-                "productId": 3,
-                "productName": "Garden Cart Pro",
-                "productCode": "GDN-0099",
-                "releaseDate": "March 18, 2020",
-                "description": "90++ gallon capacity rolling garden cart",
-                "price": 92.992,
-                "starRating": 4.8,
-                "imageUrl": "assets/images/garden_cart.png"
-              }
-        ];
+  private productUrl = 'api/products/products.json';
+  constructor(private http: HttpClient) {}
+
+  getProducts(): Observable<IProduct[]> {
+    return this.http.get<IProduct[]>(this.productUrl).pipe(
+      tap(data => console.log('All: ' + JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(err: HttpErrorResponse) {
+    let errorMessage = '';
+    if ( err.error instanceof ErrorEvent) {
+      // a client side or network error occured. Handle it accordingly.
+      errorMessage = `An error occured: ${err.error.message}`;
+    } else {
+      // backend returned an unsuccessful response code.
+      errorMessage = `Server returned code: ${err.status}, error message is: ${err.error.message}`;
     }
+    console.error(errorMessage);
+    return throwError(errorMessage);
+  }
 }
